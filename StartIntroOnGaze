@@ -1,0 +1,22 @@
+public class StartIntroOnGaze : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+{
+    [Header("Gaze Settings")]
+    public float gazeTime = 2f;               // seconds to trigger
+    private float gazeTimer = 0f;
+    private bool isGazing = false;
+    private bool triggered = false;
+
+    [Header("Target Scene")]
+    public string nextSceneName = "IntroVideoScene"; // exact scene name
+
+    void Update()
+    {
+        // Timer for gaze activation
+        if (isGazing && !triggered)
+        {
+            gazeTimer += Time.deltaTime;
+            if (gazeTimer >= gazeTime)
+            {
+                LoadNextScene();
+            }
+        }
