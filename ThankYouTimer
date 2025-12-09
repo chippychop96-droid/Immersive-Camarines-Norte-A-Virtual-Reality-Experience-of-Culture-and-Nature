@@ -1,0 +1,18 @@
+public class ThankYouTimer : MonoBehaviour
+{
+    [Header("Next Scene")]
+    public string introSceneName = "IntroScene";
+
+    [Header("Display Duration")]
+    public float displayTime = 5f;
+
+    void Start()
+    {
+        Invoke("ReturnToIntroScene", displayTime);
+    }
+
+    private void ReturnToIntroScene()
+    {
+        SceneManager.LoadScene(introSceneName);
+    }
+}
