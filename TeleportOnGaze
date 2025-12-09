@@ -1,0 +1,60 @@
+public class TeleportOnGaze : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+{
+    [Header("Target Settings")]
+    public GameObject targetLocation;   // next location parent
+    public Material targetSkybox;       // skybox material for target location
+
+    [Header("Gaze Settings")]
+    public float gazeTime = 2f;         // seconds to trigger teleport
+
+    [Header("Audio Settings")]
+    public AudioClip teleportSound;     // sound effect na tutunog pag teleport
+    private AudioSource audioSource;    // magpapatugtog ng sound
+
+    private float timer = 0f;
+    private bool gazing = false;
+
+    void Start()
+    {
+        // auto-add AudioSource kung wala
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        audioSource.playOnAwake = false;
+        audioSource.loop = false;
+        audioSource.spatialBlend = 0f; // gawin 2D sound para laging maririnig
+    }
+Jose Jerico
+public class GazeHotspotScroll : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+{
+    [Header("Gaze Settings")]
+    public float gazeTime = 2f; // seconds to trigger panel
+
+    [Header("Scroll Settings")]
+    public ScrollRect scrollRect;             // assign your ScrollRect or leave empty for auto
+    public float defaultScrollDuration = 300f; // max scroll duration for long text
+    public float shortTextDelay = 0.5f;      // delay for short text before hide
+
+    private float gazeTimer = 0f;
+    private bool isGazing = false;
+    private bool hasTriggered = false;
+    private Coroutine scrollRoutine;
+
+    [Header("UI Elements")]
+    public GameObject infoCanvas; // assign your panel here or leave empty for auto
+
+    private void Awake()
+    {
+        // Auto-assign if not manually set
+        if (infoCanvas == null)
+            infoCanvas = GetComponentInChildren<Canvas>(true)?.gameObject;
+
+        if (scrollRect == null && infoCanvas != null)
+            scrollRect = infoCanvas.GetComponentInChildren<ScrollRect>();
+
+        if (infoCanvas == null || scrollRect == null)
+            Debug.LogWarning($"GazeHotspotScroll: Missing InfoCanvas or ScrollRect in {name}");
+    }
