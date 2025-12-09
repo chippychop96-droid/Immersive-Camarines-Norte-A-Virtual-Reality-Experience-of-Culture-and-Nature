@@ -1,0 +1,15 @@
+public class IntroManager : MonoBehaviour
+{
+    public VideoPlayer videoPlayer;
+    public string nextSceneName = "SampleScene";
+
+    void Start()
+    {
+        videoPlayer.loopPointReached += OnVideoEnd;
+    }
+
+    void OnVideoEnd(VideoPlayer vp)
+    {
+        SceneManager.LoadScene(nextSceneName);
+    }
+}
